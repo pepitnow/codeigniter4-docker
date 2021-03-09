@@ -26,7 +26,8 @@ cd codeigniter
 
 build the image:<br>
 ```
-docker build . -t codeigniter:4.1.1
+
+docker build . --tag ci4-image
 ```
 
 start the container:
@@ -51,6 +52,10 @@ docker-compose up -d
 ```sh
 docker-compose down --volumes
 ```
+
+## To enter inside container shell (php, mariadb,etc) - repalce <container_name> by the name of the container you wish to enter
+
+docker exec -it <container_name> bash
 
 ## Contributing
 

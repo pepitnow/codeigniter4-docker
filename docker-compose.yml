@@ -7,30 +7,29 @@ services:
 #--------------------------------------------------------------------------#
 #--------------------------------------------------------------------------#
     codeigniter4:
-        image: atsanna/codeigniter4:latest
-        container_name: 'codeigniter4'
+        image: ci4-image
+        container_name: 'ci4'
         ports:
           - 80:80
         links:
-          - codeigniter4_mysql
+          - ci4_mariadb
         volumes:
-          - ./localfolder/www:/var/www/html
-
+          - /var/www/html:/var/www/html                  
 #--------------------------------------------------------------------------#
 #--------------------------------------------------------------------------#
 #                               M Y S Q L                                  #
 #--------------------------------------------------------------------------#
 #--------------------------------------------------------------------------#               
-    codeigniter4_mysql:
+    ci4_mariadb:
         image: mariadb:10.5.5
-        container_name: 'codeigniter4_mysql'
+        container_name: 'ci4_mariadb'
         ports:
           - 3306:3306
         volumes:
-          - ./localfolder/mysql:/var/lib/mysql
-          - ./localfolder/logs/mysql:/var/log/mysql
+          - /docker/volumes/databases/mysql:/var/lib/mysql
+          - /docker/volumes/databases/logs/mysql:/var/log/mysql
         environment:
-          MYSQL_ROOT_PASSWORD: rootpassword
+          MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: codeigniter4
           MYSQL_USER: codeigniter4
           MYSQL_PASSWORD: codeigniter4
@@ -42,13 +41,13 @@ services:
 #--------------------------------------------------------------------------#             
     codeigniter4_phpmyadmin:
         image: phpmyadmin/phpmyadmin:5.0.2
-        container_name: 'codeigniter4_phpmyadmin'
+        container_name: 'ci4_phpmyadmin'
         links:
-          - codeigniter4_mysql
+          - ci4_mariadb
         environment:
-          PMA_HOST: codeigniter4_mysql
+          PMA_HOST: ci4_mariadb
           PMA_PORT: 3306
         ports:
           - 81:80
         volumes:
-          - ./localfolder/sessions:/sessions
+          - /docker/volumes/databases/sessions:/sessions

@@ -1,4 +1,4 @@
-FROM php:7.3-apache
+FROM php:7.4-apache
 
 LABEL maintainer="Antonio Sanna <atsanna@tiscali.it>"
 
@@ -21,6 +21,7 @@ RUN apt-get -y install --fix-missing git
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN composer self-update --2
 
+# pipo was here 
 ADD conf/apache.conf /etc/apache2/sites-available/000-default.conf
 
 RUN a2enmod rewrite
